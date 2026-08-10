@@ -1,11 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Images</title>
 </head>
+<style>
+    body {
+        background-color: black;
+    }
+
+    .images {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .images div {
+        width: 250px;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        border: 2px solid red;
+        border-radius: 8px;
+    }
+
+    .images div img {
+        width: 100%;
+        height: 80%;
+        object-fit: cover;
+        border-radius: inherit;
+    }
+
+    .images div button {
+        width: 100%;
+        height: 100%;
+        background-color: beige;
+        font-size: 1.4rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .snackbar {
+        position: absolute;
+        bottom: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: white;
+        max-width: 350px;
+        width: 100%;
+        height: 50px;
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
 <body>
-   <a target="_blank" href="/images/jeremy-bishop-EwKXn5CapA4-unsplash.jpg">Image 1</a>
+    <div class="images"></div>
+
 </body>
+<script>
+    const images = [
+        'jeremy-bishop-EwKXn5CapA4-unsplash.jpg',
+        'jeremy-bishop-EwKXn5CapA4-unsplash.jpg'
+    ]
+    const imagesContainer = document.querySelector('.images')
+    images.forEach((image, index) => {
+        const div = document.createElement('div')
+        const img = document.createElement("img")
+        const button = document.createElement("button")
+        button.href = image;
+        button.target = '_blank'
+        button.textContent = "new title"
+        button.dataset.key = index
+        button.title = "Click to copy"
+
+        img.src = `/images/${image}`
+
+        div.appendChild(img)
+        div.appendChild(button)
+        imagesContainer.appendChild(div)
+
+        const snackbar = document.createElement("div")
+
+        button.addEventListener("click", function () {
+            navigator.clipboard.writeText(`https://zexuam.github.io/newsImages/images/${images[index]}`).then(() => {
+
+                snackbar.className = 'snackbar';
+                snackbar.innerText = 'Copied';
+                document.body.appendChild(snackbar)
+                setTimeout(() => {
+                    snackbar.remove();
+                }, 2500)
+            }).catch(() => {
+                snackbar.className = 'snackbar';
+                snackbar.innerText = 'Failed to Copy';
+                document.body.appendChild(snackbar)
+                setTimeout(() => {
+                    snackbar.remove();
+                }, 2500)
+            })
+            console.log(`https://zexuam.github.io/newsImages/images/${images[index]}`)
+        })
+    })
+</script>
+
 </html>
